@@ -21,7 +21,6 @@ const slides = [
 
 export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -48,7 +47,6 @@ export default function HeroSlider() {
             src={slides[currentSlide].image}
             alt="The Nocturne atmosphere"
             className="w-full h-full object-cover"
-            onLoad={() => setImagesLoaded(prev => ({ ...prev, [currentSlide]: true }))}
           />
         </motion.div>
       </AnimatePresence>

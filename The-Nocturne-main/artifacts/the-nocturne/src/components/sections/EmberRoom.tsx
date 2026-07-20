@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { openBooking } from '@/lib/booking';
 import emberImg from '@assets/IMG_1680_1784428805625.jpeg';
 
 const experiences = [
@@ -58,7 +59,10 @@ export default function EmberRoom() {
                 <p className="font-sans text-white/70 text-xs sm:text-sm leading-relaxed mb-6 md:mb-8 max-w-xs">
                   Here, guests gather for quiet rituals — private tastings, absinthe ceremonies, and whispered conversations.
                 </p>
-                <button className="flex items-center gap-3 text-xs font-sans tracking-[0.2em] uppercase text-white hover:text-primary transition-colors group w-max">
+                <button
+                  onClick={openBooking}
+                  className="flex items-center gap-3 text-xs font-sans tracking-[0.2em] uppercase text-white hover:text-primary transition-colors group w-max"
+                >
                   <span>Book A Room</span>
                   <span className="group-hover:translate-x-2 transition-transform">→</span>
                 </button>

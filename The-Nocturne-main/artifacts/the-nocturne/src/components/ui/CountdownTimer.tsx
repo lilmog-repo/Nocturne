@@ -4,19 +4,35 @@ export default function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const target = new Date();
-    target.setHours(23, 59, 59, 999);
+    const getNextTarget = () => {
+      const target = new Date();
+      target.setHours(23, 59, 59, 999);
+      // If today's target has already passed, count down to tomorrow's instead
+      // of freezing at zero for the rest of the day.
+      if (target.getTime() <= Date.now()) {
+        target.setDate(target.getDate() + 1);
+      }
+      return target;
+    };
+
+    let target = getNextTarget();
 
     const updateTimer = () => {
       const now = new Date();
-      const difference = target.getTime() - now.getTime();
-      if (difference > 0) {
-        setTimeLeft({
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        });
+      let difference = target.getTime() - now.getTime();
+
+      // Roll over to the next day's target the moment this one elapses,
+      // rather than waiting for a remount to recompute it.
+      if (difference <= 0) {
+        target = getNextTarget();
+        difference = target.getTime() - now.getTime();
       }
+
+      setTimeLeft({
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      });
     };
 
     updateTimer();
